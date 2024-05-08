@@ -97,7 +97,7 @@ class _HomeViewState extends State<HomeView> {
                         ],
                       ),
                     ),
-                    SizedBox(height: 32),
+                    const SizedBox(height: 32),
                     Padding(
                       padding: const EdgeInsets.all(16.0),
                       child: Column(
@@ -159,7 +159,7 @@ class _HomeViewState extends State<HomeView> {
                           padding: const EdgeInsets.all(16.0),
                           child: Text(
                             "Based on your recent listening",
-                            style: Theme.of(context).textTheme.headline6,
+                            style: Theme.of(context).textTheme.titleLarge,
                           ),
                         ),
                         const SingleChildScrollView(
@@ -198,7 +198,7 @@ class _HomeViewState extends State<HomeView> {
                         )
                       ],
                     ),
-                    SizedBox(height: 16),
+                    const SizedBox(height: 16),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -206,7 +206,7 @@ class _HomeViewState extends State<HomeView> {
                           padding: const EdgeInsets.all(16.0),
                           child: Text(
                             "Recommended radio",
-                            style: Theme.of(context).textTheme.headline6,
+                            style: Theme.of(context).textTheme.titleLarge,
                           ),
                         ),
                         const SingleChildScrollView(
@@ -245,7 +245,7 @@ class _HomeViewState extends State<HomeView> {
                         )
                       ],
                     ),
-                    SizedBox(height: 16),
+                    const SizedBox(height: 16),
                   ],
                 ),
               ),

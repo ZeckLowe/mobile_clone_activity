@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/gestures.dart';
 import 'package:mobile_clone_activity/widgets/album_card.dart';
 
 class AlbumView extends StatefulWidget {
@@ -68,7 +67,7 @@ class _AlbumViewState extends State<AlbumView> {
                       boxShadow: [
                         BoxShadow(
                           color: Colors.black.withOpacity(0.5),
-                          offset: Offset(0, 20),
+                          offset: const Offset(0, 20),
                           blurRadius: 32,
                           spreadRadius: 16,
                         ),
@@ -82,7 +81,7 @@ class _AlbumViewState extends State<AlbumView> {
                     ),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 100,
                 ),
               ],
@@ -91,7 +90,7 @@ class _AlbumViewState extends State<AlbumView> {
           SafeArea(
             child: SingleChildScrollView(
               controller: scrollController,
-              physics: BouncingScrollPhysics(),
+              physics: const BouncingScrollPhysics(),
               child: Column(
                 children: [
                   Container(
@@ -119,10 +118,10 @@ class _AlbumViewState extends State<AlbumView> {
                               children: [
                                 Text(
                                   "Lorem Ipsum bull fish cat dog cheetah rabbit.",
-                                  style: Theme.of(context).textTheme.caption,
+                                  style: Theme.of(context).textTheme.bodySmall,
                                 ),
-                                SizedBox(height: 8),
-                                Row(
+                                const SizedBox(height: 8),
+                                const Row(
                                   children: [
                                     Image(
                                       image: AssetImage('assets/logo.png'),
@@ -135,17 +134,17 @@ class _AlbumViewState extends State<AlbumView> {
                                     Text("Spotify"),
                                   ],
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 8,
                                 ),
                                 Text(
                                   "1,888,132 likes 5h 3m",
-                                  style: Theme.of(context).textTheme.caption,
+                                  style: Theme.of(context).textTheme.bodySmall,
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 16,
                                 ),
-                                Stack(
+                                const Stack(
                                   clipBehavior: Clip.none,
                                   children: [
                                     Row(
@@ -167,18 +166,18 @@ class _AlbumViewState extends State<AlbumView> {
                     ),
                   ),
                   Container(
-                    padding: EdgeInsets.all(16),
+                    padding: const EdgeInsets.all(16),
                     color: Colors.black,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text("Lorem Ipsum dog fish elephant jaguar panther"),
-                        SizedBox(
+                        const Text("Lorem Ipsum dog fish elephant jaguar panther"),
+                        const SizedBox(
                           height: 32,
                         ),
                         Text(
                           "You might also like",
-                          style: Theme.of(context).textTheme.headline6,
+                          style: Theme.of(context).textTheme.titleLarge,
                         ),
                         Padding(
                           padding: const EdgeInsets.symmetric(vertical: 16),
@@ -188,29 +187,12 @@ class _AlbumViewState extends State<AlbumView> {
                               AlbumCard(
                                 size: cardSize,
                                 label: "Get Turnt",
-                                image: AssetImage("assets/album3.jpg"),
+                                image: const AssetImage("assets/album3.jpg"),
                               ),
                               AlbumCard(
                                 size: cardSize,
                                 label: "Get Turnt",
-                                image: AssetImage("assets/album5.jpg"),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 16),
-                          child: Row(
-                            children: [
-                              AlbumCard(
-                                size: cardSize,
-                                label: "Get Turnt",
-                                image: AssetImage("assets/album6.jpg"),
-                              ),
-                              AlbumCard(
-                                size: cardSize,
-                                label: "Get Turnt",
-                                image: AssetImage("assets/album9.jpg"),
+                                image: const AssetImage("assets/album5.jpg"),
                               ),
                             ],
                           ),
@@ -222,12 +204,29 @@ class _AlbumViewState extends State<AlbumView> {
                               AlbumCard(
                                 size: cardSize,
                                 label: "Get Turnt",
-                                image: AssetImage("assets/album10.jpg"),
+                                image: const AssetImage("assets/album6.jpg"),
                               ),
                               AlbumCard(
                                 size: cardSize,
                                 label: "Get Turnt",
-                                image: AssetImage("assets/album4.jpg"),
+                                image: const AssetImage("assets/album9.jpg"),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 16),
+                          child: Row(
+                            children: [
+                              AlbumCard(
+                                size: cardSize,
+                                label: "Get Turnt",
+                                image: const AssetImage("assets/album10.jpg"),
+                              ),
+                              AlbumCard(
+                                size: cardSize,
+                                label: "Get Turnt",
+                                image: const AssetImage("assets/album4.jpg"),
                               ),
                             ],
                           ),
@@ -243,16 +242,16 @@ class _AlbumViewState extends State<AlbumView> {
           Positioned(
             child: Container(
               child: AnimatedContainer(
-                duration: Duration(milliseconds: 250),
+                duration: const Duration(milliseconds: 250),
                 color: showTopBar
-                    ? Color(0xFFC61855).withOpacity(1)
-                    : Color(0xFFC61855).withOpacity(0),
-                padding: EdgeInsets.symmetric(
+                    ? const Color(0xFFC61855).withOpacity(1)
+                    : const Color(0xFFC61855).withOpacity(0),
+                padding: const EdgeInsets.symmetric(
                   horizontal: 16,
                   vertical: 8,
                 ),
                 child: SafeArea(
-                  child: Container(
+                  child: SizedBox(
                     height: 40,
                     width: MediaQuery.of(context).size.width,
                     child: Stack(
@@ -265,7 +264,7 @@ class _AlbumViewState extends State<AlbumView> {
                             onTap: () {
                               Navigator.pop(context);
                             },
-                            child: Icon(
+                            child: const Icon(
                               Icons.keyboard_arrow_left,
                               size: 38,
                             ),
@@ -273,10 +272,10 @@ class _AlbumViewState extends State<AlbumView> {
                         ),
                         AnimatedOpacity(
                           opacity: showTopBar ? 1 : 0,
-                          duration: Duration(milliseconds: 250),
+                          duration: const Duration(milliseconds: 250),
                           child: Text(
                             "Ophelia",
-                            style: Theme.of(context).textTheme.headline6,
+                            style: Theme.of(context).textTheme.titleLarge,
                           ),
                         ),
                         Positioned(
@@ -290,11 +289,11 @@ class _AlbumViewState extends State<AlbumView> {
                                 width: 64,
                                 height: 64,
                                 alignment: Alignment.center,
-                                decoration: BoxDecoration(
+                                decoration: const BoxDecoration(
                                   shape: BoxShape.circle,
                                   color: Color(0xFF14D860),
                                 ),
-                                child: Icon(
+                                child: const Icon(
                                   Icons.play_arrow,
                                   size: 38,
                                 ),
@@ -302,11 +301,11 @@ class _AlbumViewState extends State<AlbumView> {
                               Container(
                                 width: 24,
                                 height: 24,
-                                decoration: BoxDecoration(
+                                decoration: const BoxDecoration(
                                   shape: BoxShape.circle,
                                   color: Colors.white,
                                 ),
-                                child: Icon(
+                                child: const Icon(
                                   Icons.shuffle,
                                   color: Colors.black,
                                   size: 14,

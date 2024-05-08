@@ -35,7 +35,7 @@ class AlbumCard extends StatelessWidget {
             height: size,
             fit: BoxFit.cover,
           ),
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
           Text(label)

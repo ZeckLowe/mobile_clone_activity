@@ -21,7 +21,7 @@ class _TabbarState extends State<Tabbar> {
           currentIndex: _selectedTab,
           onTap: (index) {
             setState(() {
-              this._selectedTab = index;
+              _selectedTab = index;
             });
           },
           items: const [
@@ -46,19 +46,19 @@ class _TabbarState extends State<Tabbar> {
         children: [
           renderView(
             0,
-            HomeView(),
+            const HomeView(),
           ),
           renderView(
             1,
-            SearchView(),
+            const SearchView(),
           ),
           renderView(
             2,
-            LibraryView(),
+            const LibraryView(),
           ),
           renderView(
             3,
-            ProfileView(),
+            const ProfileView(),
           ),
         ],
       ),

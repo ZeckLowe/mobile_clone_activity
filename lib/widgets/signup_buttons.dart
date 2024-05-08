@@ -19,22 +19,22 @@ class _SignUpButtonsState extends State<SignUpButtons> {
               onPressed: () {},
               isGreen: true,
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             RoundedButton(
               text: 'Continue with Google',
               onPressed: () {},
-              icon: AssetImage('assets/googl_logo.png'),
+              icon: const AssetImage('assets/googl_logo.png'),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             RoundedButton(
                 text: 'Continue with Facebook',
                 onPressed: () {},
-                icon: AssetImage('assets/facebook_logo.png')),
-            SizedBox(height: 10),
+                icon: const AssetImage('assets/facebook_logo.png')),
+            const SizedBox(height: 10),
             RoundedButton(
                 text: 'Continue with Apple',
                 onPressed: () {},
-                icon: AssetImage('assets/apple_logo.png')),
+                icon: const AssetImage('assets/apple_logo.png')),
           ],
         ),
       ),
@@ -51,14 +51,14 @@ class RoundedButton extends StatelessWidget {
   final bool isGreen;
 
   const RoundedButton({
-    Key? key,
+    super.key,
     required this.text,
     this.icon,
     required this.onPressed,
     this.height = 49,
     this.width = 337,
     this.isGreen = false,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -68,15 +68,14 @@ class RoundedButton extends StatelessWidget {
       child: ElevatedButton(
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(
-          padding: EdgeInsets.symmetric(vertical: 10, horizontal: 24),
+          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 24), backgroundColor: isGreen ? const Color(0xff1ED760) : Colors.transparent,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(40),
             side: BorderSide(
-              color: isGreen ? Color(0xff1ED760) : Colors.white,
+              color: isGreen ? const Color(0xff1ED760) : Colors.white,
               width: 0.6,
             ),
           ),
-          primary: isGreen ? Color(0xff1ED760) : Colors.transparent,
         ),
         child: Row(
           mainAxisAlignment:
@@ -88,7 +87,7 @@ class RoundedButton extends StatelessWidget {
                 width: 24, // Adjust icon size as needed
                 height: 24,
               ),
-            if (icon != null && text.isNotEmpty) SizedBox(width: 48),
+            if (icon != null && text.isNotEmpty) const SizedBox(width: 48),
             Text(
               text,
               style: TextStyle(

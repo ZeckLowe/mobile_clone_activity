@@ -10,7 +10,7 @@ class LibraryView extends StatefulWidget {
 class _LibraryViewState extends State<LibraryView> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
       body: Center(
         child: Text("Library View"),
       ),
