@@ -19,7 +19,7 @@ class StartPageState extends State<StartPage> {
           Positioned.fill(
             child: FractionallySizedBox(
               alignment: Alignment.topCenter,
-              heightFactor: 0.55,
+              heightFactor: 0.55, //original is 55
               child: Image.asset(
                 'assets/start_screen.png',
                 fit: BoxFit.cover,

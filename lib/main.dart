@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_clone_activity/views/home.dart';
 import 'package:mobile_clone_activity/views/search.dart';
+import 'package:mobile_clone_activity/views/start_screen.dart';
 
 void main() {
   runApp(const MainApp());
@@ -29,7 +31,7 @@ class MainApp extends StatelessWidget {
           unselectedItemColor: Colors.white38,
         ),
       ),
-      home: const SearchView(), //Tabbar(),
+      home: const StartPage(), //Tabbar(),
     );
   }
 }
