@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_clone_activity/navigations/tabbar.dart';
 import 'package:mobile_clone_activity/views/home.dart';
 import 'package:mobile_clone_activity/views/search.dart';
 import 'package:mobile_clone_activity/views/start_screen.dart';
@@ -31,7 +32,7 @@ class MainApp extends StatelessWidget {
           unselectedItemColor: Colors.white38,
         ),
       ),
-      home: const StartPage(), //Tabbar(),
+      home: const HomeView(), //Tabbar(),
     );
   }
 }
