@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'dart:math';
 
-import 'package:flutter_layout_grid/flutter_layout_grid.dart';
+// import 'package:flutter_layout_grid/flutter_layout_grid.dart';
 
 class SearchView extends StatefulWidget {
-  const SearchView({super.key});
+  SearchView({super.key});
 
   @override
   State<SearchView> createState() => _SearchViewState();
@@ -108,25 +108,25 @@ class _SearchViewState extends State<SearchView> {
             SizedBox(
               height: 15,
             ),
-            LayoutGrid(
-              columnSizes: [1.fr, 1.fr], // Set column sizes to be equal
-              rowSizes: [
-                auto,
-                auto
-              ], // Rows will size themselves based on content
-              rowGap: 15, // Space between rows
-              columnGap: 10, // Space between columns
-              children: general
-                  .map((item) => Container(
-                        padding: EdgeInsets.all(8),
-                        decoration: BoxDecoration(
-                          color: Colors.blueAccent,
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        child: Center(child: Text(item)),
-                      ))
-                  .toList(),
-            ),
+            // LayoutGrid(
+            //   columnSizes: [1.fr, 1.fr], // Set column sizes to be equal
+            //   rowSizes: [
+            //     auto,
+            //     auto
+            //   ], // Rows will size themselves based on content
+            //   rowGap: 15, // Space between rows
+            //   columnGap: 10, // Space between columns
+            //   children: general
+            //       .map((item) => Container(
+            //             padding: EdgeInsets.all(8),
+            //             decoration: BoxDecoration(
+            //               color: Colors.blueAccent,
+            //               borderRadius: BorderRadius.circular(8),
+            //             ),
+            //             child: Center(child: Text(item)),
+            //           ))
+            //       .toList(),
+            // ),
             Container(
               child: Column(
                 children: [

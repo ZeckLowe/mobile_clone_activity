@@ -32,7 +32,7 @@ class MainApp extends StatelessWidget {
           unselectedItemColor: Colors.white38,
         ),
       ),
-      home: const SearchView(), //Tabbar(),
+      home: SearchView(), //Tabbar(),
     );
   }
 }

@@ -50,7 +50,7 @@ class _TabbarState extends State<Tabbar> {
           ),
           renderView(
             1,
-            const SearchView(),
+            SearchView(),
           ),
           renderView(
             2,
