@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_clone_activity/views/sign_up_page.dart';
 
 class SignUpButtons extends StatefulWidget {
   const SignUpButtons({super.key});
@@ -16,7 +17,14 @@ class _SignUpButtonsState extends State<SignUpButtons> {
           children: [
             RoundedButton(
               text: 'Sign up free',
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (contex) => SignUp(),
+                  ),
+                );
+              },
               isGreen: true,
             ),
             const SizedBox(height: 10),
@@ -68,7 +76,9 @@ class RoundedButton extends StatelessWidget {
       child: ElevatedButton(
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(
-          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 24), backgroundColor: isGreen ? const Color(0xff1ED760) : Colors.transparent,
+          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 24),
+          backgroundColor:
+              isGreen ? const Color(0xff1ED760) : Colors.transparent,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(40),
             side: BorderSide(

@@ -1,4 +1,9 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'dart:math';
+
+import 'package:flutter_layout_grid/flutter_layout_grid.dart';
 
 class SearchView extends StatefulWidget {
   const SearchView({super.key});
@@ -8,43 +13,315 @@ class SearchView extends StatefulWidget {
 }
 
 class _SearchViewState extends State<SearchView> {
+  final List<String> general = [
+    'Podcasts',
+    'Music',
+    'Life Events',
+    'Charts',
+    'Made For You',
+    'OPM',
+    'New Releases',
+    'Pop',
+    'Hip-Hop',
+  ];
+  final List<String> genres = [
+    'Pop',
+    'Indie',
+    'Country',
+    'Ballad',
+    'Jazz',
+    'R&B',
+  ];
+  final List<String> podcast = [
+    'Politics',
+    'Comedy',
+    'Sports',
+    'Environment',
+    'Dance',
+    'Personal life',
+  ];
+  final List<Color> colors = [
+    Colors.red,
+    Colors.orange,
+    Colors.yellow,
+    Colors.green,
+    Colors.blue,
+    Colors.indigo,
+    Colors.purple,
+    Colors.deepPurple,
+    Colors.lightBlue,
+    Colors.teal,
+  ];
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    double screenWidth = MediaQuery.of(context).size.width;
+    return Scaffold(
       backgroundColor: Color(0xff121212),
-      body: Center(
+      body: SingleChildScrollView(
+        padding: EdgeInsets.fromLTRB(15, 50, 15, 15),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            SearchText(),
             SizedBox(
-              height: 75,
+              height: 10,
             ),
-            Padding(
-              padding: EdgeInsets.all(16),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            Text_Field(screenWidth: screenWidth),
+            SizedBox(
+              height: 15,
+            ),
+            Text(
+              'Your top genres',
+              style: TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white),
+            ),
+            SizedBox(
+              height: 15,
+            ),
+            Card(screenWidth: screenWidth, items: genres, colors: colors),
+            SizedBox(
+              height: 30,
+            ),
+            Text(
+              'Popular podcast categories',
+              style: TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white),
+            ),
+            SizedBox(
+              height: 15,
+            ),
+            Card(screenWidth: screenWidth, items: podcast, colors: colors),
+            SizedBox(
+              height: 30,
+            ),
+            Text(
+              'Browse all',
+              style: TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white),
+            ),
+            SizedBox(
+              height: 15,
+            ),
+            LayoutGrid(
+              columnSizes: [1.fr, 1.fr], // Set column sizes to be equal
+              rowSizes: [
+                auto,
+                auto
+              ], // Rows will size themselves based on content
+              rowGap: 15, // Space between rows
+              columnGap: 10, // Space between columns
+              children: general
+                  .map((item) => Container(
+                        padding: EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                          color: Colors.blueAccent,
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Center(child: Text(item)),
+                      ))
+                  .toList(),
+            ),
+            Container(
+              child: Column(
                 children: [
-                  Expanded(
-                    child: Text(
-                      'Search',
-                      textAlign: TextAlign.start,
-                      style: TextStyle(
-                        fontSize: 25,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                      ),
+                  GridView.builder(
+                    shrinkWrap: true,
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
                     ),
+                    controller: ScrollController(keepScrollOffset: false),
+                    itemCount: general.length,
+                    itemBuilder: (context, index) {
+                      int randomIndex = Random().nextInt(colors.length);
+                      return AspectRatio(
+                        aspectRatio: 1.5, // Adjust this value as needed
+                        child: Container(
+                          decoration: BoxDecoration(
+                              color: colors[randomIndex],
+                              borderRadius: BorderRadius.circular(5)),
+                          margin: EdgeInsets.fromLTRB(0, 0, 20, 0),
+                          child: Padding(
+                            padding: EdgeInsets.fromLTRB(10, 10, 0, 0),
+                            child: Stack(
+                              children: [
+                                Text(
+                                  general[index % general.length],
+                                  style: TextStyle(
+                                      fontSize: 17,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white),
+                                ),
+                                Positioned(
+                                  top: 35,
+                                  left: 95,
+                                  child: Transform.rotate(
+                                    angle: 0.5,
+                                    child: Container(
+                                      height: 80,
+                                      width: 80,
+                                      child:
+                                          Image.asset('assets/SampleImage.png'),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      );
+                    },
                   ),
-                  Expanded(
-                      child: Icon(
-                    Icons.camera_alt_sharp,
-                    color: Colors.white,
-                  ))
                 ],
               ),
             ),
           ],
         ),
       ),
+    );
+  }
+}
+
+class Card extends StatelessWidget {
+  const Card({
+    super.key,
+    required this.screenWidth,
+    required this.items,
+    required this.colors,
+  });
+
+  final double screenWidth;
+  final List<String> items;
+  final List<Color> colors;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 120,
+      width: screenWidth,
+      // decoration: BoxDecoration(color: Colors.white),
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        itemCount: items.length,
+        itemBuilder: (context, index) {
+          int randomIndex = Random().nextInt(colors.length);
+          // print(randomIndex)
+          return Container(
+            width: 170,
+            height: 120,
+            decoration: BoxDecoration(
+                color: colors[randomIndex],
+                borderRadius: BorderRadius.circular(5)),
+            margin: EdgeInsets.fromLTRB(0, 0, 20, 0),
+            child: Padding(
+              padding: EdgeInsets.fromLTRB(10, 10, 0, 0),
+              child: Stack(
+                children: [
+                  Text(
+                    items[index % items.length],
+                    style: TextStyle(
+                        fontSize: 17,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white),
+                  ),
+                  Positioned(
+                    top: 35,
+                    left: 95,
+                    child: Transform.rotate(
+                      angle: 0.5,
+                      child: Container(
+                        height: 80,
+                        width: 80,
+                        child: Image.asset('assets/SampleImage.png'),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
+        },
+      ),
+    );
+  }
+}
+
+class Text_Field extends StatelessWidget {
+  const Text_Field({
+    super.key,
+    required this.screenWidth,
+  });
+
+  final double screenWidth;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+          color: Colors.white, borderRadius: BorderRadius.circular(5)),
+      padding: EdgeInsets.fromLTRB(5, 0, 0, 0),
+      width: screenWidth,
+      height: 45,
+      child: Row(
+        children: [
+          Container(
+            height: 40,
+            width: 40,
+            child: Image.asset('assets/magnifyingG.png'),
+          ),
+          Container(
+            width: screenWidth - 105,
+            height: 45,
+            child: TextField(
+              // controller: controller,
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w400,
+                color: Colors.black,
+              ),
+              decoration: InputDecoration(
+                border: InputBorder.none,
+                hintText: 'Artists, songs, or podcasts',
+                hintStyle: TextStyle(
+                  color: Colors.black,
+                  fontSize: 15,
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class SearchText extends StatelessWidget {
+  const SearchText({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(
+          'Search',
+          textAlign: TextAlign.start,
+          style: TextStyle(
+            fontSize: 25,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
+        ),
+        Container(
+            height: 50, width: 50, child: Image.asset('assets/SearchCam.png')),
+      ],
     );
   }
 }
