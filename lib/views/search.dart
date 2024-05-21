@@ -108,76 +108,44 @@ class _SearchViewState extends State<SearchView> {
             SizedBox(
               height: 15,
             ),
-            // LayoutGrid(
-            //   columnSizes: [1.fr, 1.fr], // Set column sizes to be equal
-            //   rowSizes: [
-            //     auto,
-            //     auto
-            //   ], // Rows will size themselves based on content
-            //   rowGap: 15, // Space between rows
-            //   columnGap: 10, // Space between columns
-            //   children: general
-            //       .map((item) => Container(
-            //             padding: EdgeInsets.all(8),
-            //             decoration: BoxDecoration(
-            //               color: Colors.blueAccent,
-            //               borderRadius: BorderRadius.circular(8),
-            //             ),
-            //             child: Center(child: Text(item)),
-            //           ))
-            //       .toList(),
-            // ),
-            Container(
-              child: Column(
-                children: [
-                  GridView.builder(
-                    shrinkWrap: true,
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                    ),
-                    controller: ScrollController(keepScrollOffset: false),
-                    itemCount: general.length,
-                    itemBuilder: (context, index) {
-                      int randomIndex = Random().nextInt(colors.length);
-                      return AspectRatio(
-                        aspectRatio: 1.5, // Adjust this value as needed
-                        child: Container(
-                          decoration: BoxDecoration(
-                              color: colors[randomIndex],
-                              borderRadius: BorderRadius.circular(5)),
-                          margin: EdgeInsets.fromLTRB(0, 0, 20, 0),
-                          child: Padding(
-                            padding: EdgeInsets.fromLTRB(10, 10, 0, 0),
-                            child: Stack(
-                              children: [
-                                Text(
-                                  general[index % general.length],
-                                  style: TextStyle(
-                                      fontSize: 17,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.white),
-                                ),
-                                Positioned(
-                                  top: 35,
-                                  left: 95,
-                                  child: Transform.rotate(
-                                    angle: 0.5,
-                                    child: Container(
-                                      height: 80,
-                                      width: 80,
-                                      child:
-                                          Image.asset('assets/SampleImage.png'),
-                                    ),
-                                  ),
-                                ),
-                              ],
+            Wrap(
+              spacing: 20,
+              runSpacing: 20,
+              children: List.generate(
+                general.length,
+                (index) => Container(
+                  decoration: BoxDecoration(
+                      color: colors[index % colors.length],
+                      borderRadius: BorderRadius.circular(5)),
+                  width: 180,
+                  height: 120,
+                  child: Padding(
+                    padding: EdgeInsets.fromLTRB(10, 10, 0, 0),
+                    child: Stack(
+                      children: [
+                        Text(
+                          general[index % general.length],
+                          style: TextStyle(
+                              fontSize: 17,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white),
+                        ),
+                        Positioned(
+                          top: 35,
+                          left: 95,
+                          child: Transform.rotate(
+                            angle: 0.5,
+                            child: Container(
+                              height: 80,
+                              width: 80,
+                              child: Image.asset('assets/SampleImage.png'),
                             ),
                           ),
                         ),
-                      );
-                    },
+                      ],
+                    ),
                   ),
-                ],
+                ),
               ),
             ),
           ],
