@@ -9,13 +9,13 @@ class SignUp3 extends StatelessWidget {
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 27, 27, 27),
+      backgroundColor: const Color.fromARGB(255, 27, 27, 27),
       body: Padding(
-        padding: EdgeInsets.all(20),
+        padding: const EdgeInsets.all(20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
+            const Row(
               children: [
                 backButton(),
                 SizedBox(
@@ -30,10 +30,10 @@ class SignUp3 extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(
+            const SizedBox(
               height: 30,
             ),
-            Text(
+            const Text(
               'What\'s your gender?',
               style: TextStyle(
                   color: Colors.white,
@@ -41,10 +41,10 @@ class SignUp3 extends StatelessWidget {
                   fontWeight: FontWeight.bold),
             ),
             text_field(width: screenWidth),
-            SizedBox(
+            const SizedBox(
               height: 50,
             ),
-            NextButton(),
+            const NextButton(),
           ],
         ),
       ),
@@ -64,7 +64,7 @@ class NextButton extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (contex) => SignUp4(),
+            builder: (contex) => const SignUp4(),
           ),
         );
       },
@@ -73,9 +73,9 @@ class NextButton extends StatelessWidget {
           width: 100,
           height: 40,
           decoration: BoxDecoration(
-              color: Color.fromARGB(255, 100, 99, 99),
+              color: const Color.fromARGB(255, 100, 99, 99),
               borderRadius: BorderRadius.circular(25)),
-          child: Center(
+          child: const Center(
             child: Text(
               'Next',
               style: TextStyle(
@@ -98,17 +98,17 @@ class text_field extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-          color: Color.fromARGB(255, 134, 134, 134),
+          color: const Color.fromARGB(255, 134, 134, 134),
           borderRadius: BorderRadius.circular(5)),
-      padding: EdgeInsets.fromLTRB(15, 0, 0, 0),
+      padding: const EdgeInsets.fromLTRB(15, 0, 0, 0),
       width: width,
       height: 45,
       child: Row(
         children: [
-          Container(
+          SizedBox(
             width: width - 100,
             height: 45,
-            child: TextField(
+            child: const TextField(
               // controller: controller,
               style: TextStyle(
                 fontSize: 16,
@@ -125,7 +125,7 @@ class text_field extends StatelessWidget {
               ),
             ),
           ),
-          Container(
+          SizedBox(
             height: 40,
             width: 40,
             child: Image.asset('assets/checkSymbol.png'),
@@ -148,7 +148,7 @@ class backButton extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (contex) => SignUp2(),
+            builder: (contex) => const SignUp2(),
           ),
         );
       },

@@ -21,7 +21,7 @@ class _SignUpButtonsState extends State<SignUpButtons> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (contex) => SignUp(),
+                    builder: (contex) => const SignUp(),
                   ),
                 );
               },

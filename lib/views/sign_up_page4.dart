@@ -17,13 +17,13 @@ class _SignUp4State extends State<SignUp4> {
     double screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      backgroundColor: Color.fromARGB(255, 27, 27, 27),
+      backgroundColor: const Color.fromARGB(255, 27, 27, 27),
       body: Padding(
-        padding: EdgeInsets.fromLTRB(20, 20, 0, 20),
+        padding: const EdgeInsets.fromLTRB(20, 20, 0, 20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
+            const Row(
               children: [
                 backButton(),
                 SizedBox(
@@ -38,10 +38,10 @@ class _SignUp4State extends State<SignUp4> {
                 ),
               ],
             ),
-            SizedBox(
+            const SizedBox(
               height: 30,
             ),
-            Text(
+            const Text(
               'What\'s your name?',
               style: TextStyle(
                   color: Colors.white,
@@ -49,38 +49,38 @@ class _SignUp4State extends State<SignUp4> {
                   fontWeight: FontWeight.bold),
             ),
             text_field(width: screenWidth),
-            Text(
+            const Text(
               'This appears on your spotify profile.',
               style: TextStyle(
                   color: Colors.white,
                   fontSize: 10,
                   fontWeight: FontWeight.w400),
             ),
-            SizedBox(
+            const SizedBox(
               height: 50,
             ),
             Container(
               width: screenWidth - 50,
               height: 2,
-              decoration: BoxDecoration(color: Colors.grey),
+              decoration: const BoxDecoration(color: Colors.grey),
             ),
-            SizedBox(
+            const SizedBox(
               height: 25,
             ),
             PrivacyPolicy(screenWidth: screenWidth),
-            SizedBox(
+            const SizedBox(
               height: 15,
             ),
             Row(
               children: [
-                Text(
+                const Text(
                   'Please send me news and offers from Spotify.',
                   style: TextStyle(
                       color: Colors.white,
                       fontSize: 10,
                       fontWeight: FontWeight.bold),
                 ),
-                Spacer(),
+                const Spacer(),
                 Checkbox(
                   value: isChecked1,
                   onChanged: (bool? value) {
@@ -91,19 +91,19 @@ class _SignUp4State extends State<SignUp4> {
                 ),
               ],
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             Row(
               children: [
-                Text(
+                const Text(
                   'Share my registration data with Spotif\'s content providers for',
                   style: TextStyle(
                       color: Colors.white,
                       fontSize: 10,
                       fontWeight: FontWeight.bold),
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 35,
                 ),
                 Checkbox(
@@ -116,15 +116,15 @@ class _SignUp4State extends State<SignUp4> {
                 ),
               ],
             ),
-            Text(
+            const Text(
               'marketing purposes',
               style: TextStyle(
                   color: Colors.white,
                   fontSize: 10,
                   fontWeight: FontWeight.bold),
             ),
-            Spacer(),
-            NextButton(),
+            const Spacer(),
+            const NextButton(),
           ],
         ),
       ),
@@ -142,10 +142,10 @@ class PrivacyPolicy extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: 150,
       width: screenWidth,
-      child: Column(
+      child: const Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
@@ -199,7 +199,7 @@ class NextButton extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (contex) => HomeView(),
+            builder: (contex) => const HomeView(),
           ),
         );
       },
@@ -209,7 +209,7 @@ class NextButton extends StatelessWidget {
           height: 40,
           decoration: BoxDecoration(
               color: Colors.white, borderRadius: BorderRadius.circular(25)),
-          child: Center(
+          child: const Center(
             child: Text(
               'Create an account',
               style: TextStyle(
@@ -232,17 +232,17 @@ class text_field extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-          color: Color.fromARGB(255, 134, 134, 134),
+          color: const Color.fromARGB(255, 134, 134, 134),
           borderRadius: BorderRadius.circular(5)),
-      padding: EdgeInsets.fromLTRB(15, 0, 0, 0),
+      padding: const EdgeInsets.fromLTRB(15, 0, 0, 0),
       width: width - 50,
       height: 45,
       child: Row(
         children: [
-          Container(
+          SizedBox(
             width: width - 105,
             height: 45,
-            child: TextField(
+            child: const TextField(
               // controller: controller,
               style: TextStyle(
                 fontSize: 16,
@@ -259,7 +259,7 @@ class text_field extends StatelessWidget {
               ),
             ),
           ),
-          Container(
+          SizedBox(
             height: 40,
             width: 40,
             child: Image.asset('assets/checkSymbol.png'),
@@ -282,7 +282,7 @@ class backButton extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (contex) => SignUp3(),
+            builder: (contex) => const SignUp3(),
           ),
         );
       },

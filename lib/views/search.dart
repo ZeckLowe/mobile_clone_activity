@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'dart:math';
 
 class SearchView extends StatefulWidget {
@@ -54,63 +52,63 @@ class _SearchViewState extends State<SearchView> {
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
-      backgroundColor: Color(0xff121212),
+      backgroundColor: const Color(0xff121212),
       body: SingleChildScrollView(
-        padding: EdgeInsets.fromLTRB(15, 50, 15, 15),
+        padding: const EdgeInsets.fromLTRB(15, 50, 15, 15),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SearchText(),
-            SizedBox(
+            const SearchText(),
+            const SizedBox(
               height: 10,
             ),
             Text_Field(screenWidth: screenWidth),
-            SizedBox(
+            const SizedBox(
               height: 15,
             ),
-            Text(
+            const Text(
               'Your top genres',
               style: TextStyle(
                   fontSize: 15,
                   fontWeight: FontWeight.bold,
                   color: Colors.white),
             ),
-            SizedBox(
+            const SizedBox(
               height: 15,
             ),
             Card(screenWidth: screenWidth, items: genres, colors: colors),
-            SizedBox(
+            const SizedBox(
               height: 30,
             ),
-            Text(
+            const Text(
               'Popular podcast categories',
               style: TextStyle(
                   fontSize: 15,
                   fontWeight: FontWeight.bold,
                   color: Colors.white),
             ),
-            SizedBox(
+            const SizedBox(
               height: 15,
             ),
             Card(screenWidth: screenWidth, items: podcast, colors: colors),
-            SizedBox(
+            const SizedBox(
               height: 30,
             ),
-            Text(
+            const Text(
               'Browse all',
               style: TextStyle(
                   fontSize: 15,
                   fontWeight: FontWeight.bold,
                   color: Colors.white),
             ),
-            SizedBox(
+            const SizedBox(
               height: 15,
             ),
             GridView.builder(
               shrinkWrap: true,
               physics:
-                  NeverScrollableScrollPhysics(), // Disable scrolling in GridView
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  const NeverScrollableScrollPhysics(), // Disable scrolling in GridView
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2, // Number of columns
               ),
               itemCount: general.length,
@@ -122,14 +120,14 @@ class _SearchViewState extends State<SearchView> {
                   decoration: BoxDecoration(
                       color: colors[randomIndex],
                       borderRadius: BorderRadius.circular(5)),
-                  margin: EdgeInsets.fromLTRB(0, 0, 20, 0),
+                  margin: const EdgeInsets.fromLTRB(0, 0, 20, 0),
                   child: Padding(
-                    padding: EdgeInsets.fromLTRB(10, 10, 0, 0),
+                    padding: const EdgeInsets.fromLTRB(10, 10, 0, 0),
                     child: Stack(
                       children: [
                         Text(
                           general[index % general.length],
-                          style: TextStyle(
+                          style: const TextStyle(
                               fontSize: 17,
                               fontWeight: FontWeight.bold,
                               color: Colors.white),
@@ -139,7 +137,7 @@ class _SearchViewState extends State<SearchView> {
                           left: 95,
                           child: Transform.rotate(
                             angle: 0.5,
-                            child: Container(
+                            child: SizedBox(
                               height: 90,
                               width: 80,
                               child: Image.asset('assets/SampleImage.png'),
@@ -173,7 +171,7 @@ class Card extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: 120,
       width: screenWidth,
       // decoration: BoxDecoration(color: Colors.white),
@@ -189,14 +187,14 @@ class Card extends StatelessWidget {
             decoration: BoxDecoration(
                 color: colors[randomIndex],
                 borderRadius: BorderRadius.circular(5)),
-            margin: EdgeInsets.fromLTRB(0, 0, 20, 0),
+            margin: const EdgeInsets.fromLTRB(0, 0, 20, 0),
             child: Padding(
-              padding: EdgeInsets.fromLTRB(10, 10, 0, 0),
+              padding: const EdgeInsets.fromLTRB(10, 10, 0, 0),
               child: Stack(
                 children: [
                   Text(
                     items[index % items.length],
-                    style: TextStyle(
+                    style: const TextStyle(
                         fontSize: 17,
                         fontWeight: FontWeight.bold,
                         color: Colors.white),
@@ -206,7 +204,7 @@ class Card extends StatelessWidget {
                     left: 95,
                     child: Transform.rotate(
                       angle: 0.5,
-                      child: Container(
+                      child: SizedBox(
                         height: 80,
                         width: 80,
                         child: Image.asset('assets/SampleImage.png'),
@@ -236,20 +234,20 @@ class Text_Field extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
           color: Colors.white, borderRadius: BorderRadius.circular(5)),
-      padding: EdgeInsets.fromLTRB(5, 0, 0, 0),
+      padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
       width: screenWidth,
       height: 45,
       child: Row(
         children: [
-          Container(
+          SizedBox(
             height: 40,
             width: 40,
             child: Image.asset('assets/magnifyingG.png'),
           ),
-          Container(
+          SizedBox(
             width: screenWidth - 105,
             height: 45,
-            child: TextField(
+            child: const TextField(
               // controller: controller,
               style: TextStyle(
                 fontSize: 16,
@@ -282,7 +280,7 @@ class SearchText extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(
+        const Text(
           'Search',
           textAlign: TextAlign.start,
           style: TextStyle(
@@ -291,7 +289,7 @@ class SearchText extends StatelessWidget {
             color: Colors.white,
           ),
         ),
-        Container(
+        SizedBox(
             height: 50, width: 50, child: Image.asset('assets/SearchCam.png')),
       ],
     );

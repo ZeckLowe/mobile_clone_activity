@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:mobile_clone_activity/views/sign_up_page2.dart';
 import 'package:mobile_clone_activity/views/start_screen.dart';
 
@@ -10,13 +9,13 @@ class SignUp extends StatelessWidget {
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 27, 27, 27),
+      backgroundColor: const Color.fromARGB(255, 27, 27, 27),
       body: Padding(
-        padding: EdgeInsets.all(20),
+        padding: const EdgeInsets.all(20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
+            const Row(
               children: [
                 backButton(),
                 SizedBox(
@@ -31,10 +30,10 @@ class SignUp extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(
+            const SizedBox(
               height: 30,
             ),
-            Text(
+            const Text(
               'What\'s your email?',
               style: TextStyle(
                   color: Colors.white,
@@ -42,17 +41,17 @@ class SignUp extends StatelessWidget {
                   fontWeight: FontWeight.bold),
             ),
             text_field(width: screenWidth),
-            Text(
+            const Text(
               'You\'ll need to confirm this email later.',
               style: TextStyle(
                   color: Colors.white,
                   fontSize: 10,
                   fontWeight: FontWeight.w400),
             ),
-            SizedBox(
+            const SizedBox(
               height: 50,
             ),
-            NextButton(),
+            const NextButton(),
           ],
         ),
       ),
@@ -72,7 +71,7 @@ class NextButton extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (contex) => SignUp2(),
+            builder: (contex) => const SignUp2(),
           ),
         );
       },
@@ -81,9 +80,9 @@ class NextButton extends StatelessWidget {
           width: 100,
           height: 40,
           decoration: BoxDecoration(
-              color: Color.fromARGB(255, 100, 99, 99),
+              color: const Color.fromARGB(255, 100, 99, 99),
               borderRadius: BorderRadius.circular(25)),
-          child: Center(
+          child: const Center(
             child: Text(
               'Next',
               style: TextStyle(
@@ -106,12 +105,12 @@ class text_field extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-          color: Color.fromARGB(255, 134, 134, 134),
+          color: const Color.fromARGB(255, 134, 134, 134),
           borderRadius: BorderRadius.circular(5)),
-      padding: EdgeInsets.fromLTRB(15, 0, 0, 0),
+      padding: const EdgeInsets.fromLTRB(15, 0, 0, 0),
       width: width,
       height: 45,
-      child: TextField(
+      child: const TextField(
         // controller: controller,
         style: TextStyle(
           fontSize: 16,
@@ -143,7 +142,7 @@ class backButton extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (contex) => StartPage(),
+            builder: (contex) => const StartPage(),
           ),
         );
       },
