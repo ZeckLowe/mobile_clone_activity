@@ -113,6 +113,7 @@ class text_field extends StatelessWidget {
       width: width,
       height: 45,
       child: TextField(
+        obscureText: true,
         // controller: controller,
         style: TextStyle(
           fontSize: 16,
