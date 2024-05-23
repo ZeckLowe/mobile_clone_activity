@@ -11,49 +11,51 @@ class SignUp extends StatelessWidget {
     double screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: Color.fromARGB(255, 27, 27, 27),
-      body: Padding(
-        padding: EdgeInsets.all(20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                backButton(),
-                SizedBox(
-                  width: 90,
-                ),
-                Text(
-                  'Create Account',
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold),
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 30,
-            ),
-            Text(
-              'What\'s your email?',
-              style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 19,
-                  fontWeight: FontWeight.bold),
-            ),
-            text_field(width: screenWidth),
-            Text(
-              'You\'ll need to confirm this email later.',
-              style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 10,
-                  fontWeight: FontWeight.w400),
-            ),
-            SizedBox(
-              height: 50,
-            ),
-            NextButton(),
-          ],
+      body: SafeArea(
+        child: Padding(
+          padding: EdgeInsets.all(20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  backButton(),
+                  SizedBox(
+                    width: 90,
+                  ),
+                  Text(
+                    'Create Account',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold),
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 30,
+              ),
+              Text(
+                'What\'s your email?',
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 19,
+                    fontWeight: FontWeight.bold),
+              ),
+              text_field(width: screenWidth),
+              Text(
+                'You\'ll need to confirm this email later.',
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 10,
+                    fontWeight: FontWeight.w400),
+              ),
+              SizedBox(
+                height: 50,
+              ),
+              NextButton(),
+            ],
+          ),
         ),
       ),
     );

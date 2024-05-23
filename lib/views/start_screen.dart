@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_clone_activity/navigations/tabbar.dart';
 import 'package:mobile_clone_activity/views/home.dart';
 import 'package:mobile_clone_activity/widgets/signup_buttons.dart';
 
@@ -54,7 +55,7 @@ class StartPageState extends State<StartPage> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const HomeView(),
+                          builder: (context) => Tabbar(),
                         ),
                       );
                     },

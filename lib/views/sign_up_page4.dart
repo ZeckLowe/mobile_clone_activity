@@ -1,131 +1,126 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_clone_activity/navigations/tabbar.dart';
+import 'package:mobile_clone_activity/providers/providers.dart';
 import 'package:mobile_clone_activity/views/home.dart';
 import 'package:mobile_clone_activity/views/sign_up_page3.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class SignUp4 extends StatefulWidget {
+class SignUp4 extends ConsumerWidget {
   const SignUp4({super.key});
 
   @override
-  State<SignUp4> createState() => _SignUp4State();
-}
-
-class _SignUp4State extends State<SignUp4> {
-  bool isChecked1 = false;
-  bool isChecked2 = false;
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     double screenWidth = MediaQuery.of(context).size.width;
+    final isChecked1 = ref.watch(isChecked1Provider);
+    final isChecked2 = ref.watch(isChecked2Provider);
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: Color.fromARGB(255, 27, 27, 27),
-      body: Padding(
-        padding: EdgeInsets.fromLTRB(20, 20, 0, 20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                backButton(),
-                SizedBox(
-                  width: 90,
-                ),
-                Text(
-                  'Create Account',
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold),
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 30,
-            ),
-            Text(
-              'What\'s your name?',
-              style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 19,
-                  fontWeight: FontWeight.bold),
-            ),
-            text_field(width: screenWidth),
-            Text(
-              'This appears on your spotify profile.',
-              style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 10,
-                  fontWeight: FontWeight.w400),
-            ),
-            SizedBox(
-              height: 50,
-            ),
-            Container(
-              width: screenWidth - 50,
-              height: 2,
-              decoration: BoxDecoration(color: Colors.grey),
-            ),
-            SizedBox(
-              height: 25,
-            ),
-            PrivacyPolicy(screenWidth: screenWidth),
-            SizedBox(
-              height: 15,
-            ),
-            Row(
-              children: [
-                Text(
-                  'Please send me news and offers from Spotify.',
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 10,
-                      fontWeight: FontWeight.bold),
-                ),
-                Spacer(),
-                Checkbox(
-                  value: isChecked1,
-                  onChanged: (bool? value) {
-                    setState(() {
-                      isChecked1 = value!;
-                    });
-                  },
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Row(
-              children: [
-                Text(
-                  'Share my registration data with Spotif\'s content providers for',
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 10,
-                      fontWeight: FontWeight.bold),
-                ),
-                SizedBox(
-                  width: 35,
-                ),
-                Checkbox(
-                  value: isChecked2,
-                  onChanged: (bool? value) {
-                    setState(() {
-                      isChecked2 = value!;
-                    });
-                  },
-                ),
-              ],
-            ),
-            Text(
-              'marketing purposes',
-              style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 10,
-                  fontWeight: FontWeight.bold),
-            ),
-            Spacer(),
-            NextButton(),
-          ],
+      body: SafeArea(
+        child: Padding(
+          padding: EdgeInsets.fromLTRB(20, 20, 0, 20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  backButton(),
+                  SizedBox(
+                    width: 90,
+                  ),
+                  Text(
+                    'Create Account',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold),
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 30,
+              ),
+              Text(
+                'What\'s your name?',
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 19,
+                    fontWeight: FontWeight.bold),
+              ),
+              text_field(width: screenWidth),
+              Text(
+                'This appears on your spotify profile.',
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 10,
+                    fontWeight: FontWeight.w400),
+              ),
+              SizedBox(
+                height: 50,
+              ),
+              Container(
+                width: screenWidth - 50,
+                height: 2,
+                decoration: BoxDecoration(color: Colors.grey),
+              ),
+              SizedBox(
+                height: 25,
+              ),
+              PrivacyPolicy(screenWidth: screenWidth),
+              SizedBox(
+                height: 15,
+              ),
+              Row(
+                children: [
+                  Text(
+                    'Please send me news and offers from Spotify.',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 10,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  Spacer(),
+                  Checkbox(
+                    value: isChecked1,
+                    onChanged: (bool? value) {
+                      ref.read(isChecked1Provider.notifier).state = value!;
+                    },
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Row(
+                children: [
+                  Text(
+                    'Share my registration data with Spotify\'s content providers for',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 10,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  Spacer(),
+                  Checkbox(
+                    value: isChecked2,
+                    onChanged: (bool? value) {
+                      ref.read(isChecked2Provider.notifier).state = value!;
+                    },
+                  ),
+                ],
+              ),
+              Text(
+                'marketing purposes',
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 10,
+                    fontWeight: FontWeight.bold),
+              ),
+              Spacer(),
+              NextButton(),
+            ],
+          ),
         ),
       ),
     );
@@ -199,7 +194,7 @@ class NextButton extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (contex) => HomeView(),
+            builder: (contex) => Tabbar(),
           ),
         );
       },
@@ -234,7 +229,7 @@ class text_field extends StatelessWidget {
       decoration: BoxDecoration(
           color: Color.fromARGB(255, 134, 134, 134),
           borderRadius: BorderRadius.circular(5)),
-      padding: EdgeInsets.fromLTRB(15, 0, 0, 0),
+      padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
       width: width - 50,
       height: 45,
       child: Row(

@@ -1,28 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mobile_clone_activity/providers/providers.dart';
 import 'package:mobile_clone_activity/views/home.dart';
 import 'package:mobile_clone_activity/views/library.dart';
 import 'package:mobile_clone_activity/views/profile.dart';
 import 'package:mobile_clone_activity/views/search.dart';
 
-class Tabbar extends StatefulWidget {
-  const Tabbar({super.key});
-
+class Tabbar extends ConsumerWidget {
   @override
-  State<Tabbar> createState() => _TabbarState();
-}
-
-class _TabbarState extends State<Tabbar> {
-  int _selectedTab = 0;
-
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    int _selectedTab = ref.watch(selectedTabProvider);
     return Scaffold(
       bottomNavigationBar: BottomNavigationBar(
           currentIndex: _selectedTab,
           onTap: (index) {
-            setState(() {
-              _selectedTab = index;
-            });
+            ref.read(selectedTabProvider.notifier).state = index;
           },
           items: const [
             BottomNavigationBarItem(
@@ -44,28 +36,16 @@ class _TabbarState extends State<Tabbar> {
           ]),
       body: Stack(
         children: [
-          renderView(
-            0,
-            const HomeView(),
-          ),
-          renderView(
-            1,
-            SearchView(),
-          ),
-          renderView(
-            2,
-            const LibraryView(),
-          ),
-          renderView(
-            3,
-            const ProfileView(),
-          ),
+          renderView(0, const HomeView(), _selectedTab = _selectedTab),
+          renderView(1, SearchView(), _selectedTab = _selectedTab),
+          renderView(2, const LibraryView(), _selectedTab = _selectedTab),
+          renderView(3, const ProfileView(), _selectedTab = _selectedTab),
         ],
       ),
     );
   }
 
-  Widget renderView(int tabIndex, Widget view) {
+  Widget renderView(int tabIndex, Widget view, int _selectedTab) {
     return IgnorePointer(
       ignoring: _selectedTab != tabIndex,
       child: Opacity(

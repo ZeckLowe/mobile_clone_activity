@@ -2,14 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:mobile_clone_activity/widgets/album_card.dart';
 import 'package:mobile_clone_activity/widgets/song_card.dart';
 
-class HomeView extends StatefulWidget {
+class HomeView extends StatelessWidget {
   const HomeView({super.key});
 
-  @override
-  State<HomeView> createState() => _HomeViewState();
-}
-
-class _HomeViewState extends State<HomeView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

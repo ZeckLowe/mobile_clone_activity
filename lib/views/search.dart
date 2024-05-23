@@ -1,16 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:mobile_clone_activity/views/search2.dart';
 import 'dart:math';
 
-class SearchView extends StatefulWidget {
+class SearchView extends StatelessWidget {
   SearchView({super.key});
 
-  @override
-  State<SearchView> createState() => _SearchViewState();
-}
-
-class _SearchViewState extends State<SearchView> {
   final List<String> general = [
     'Podcasts',
     'Music',
@@ -22,6 +18,7 @@ class _SearchViewState extends State<SearchView> {
     'Pop',
     'Hip-Hop',
   ];
+
   final List<String> genres = [
     'Pop',
     'Indie',
@@ -30,6 +27,7 @@ class _SearchViewState extends State<SearchView> {
     'Jazz',
     'R&B',
   ];
+
   final List<String> podcast = [
     'Politics',
     'Comedy',
@@ -38,6 +36,7 @@ class _SearchViewState extends State<SearchView> {
     'Dance',
     'Personal life',
   ];
+
   final List<Color> colors = [
     Colors.red,
     Colors.orange,
@@ -50,9 +49,11 @@ class _SearchViewState extends State<SearchView> {
     Colors.lightBlue,
     Colors.teal,
   ];
+
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
+
     return Scaffold(
       backgroundColor: Color(0xff121212),
       body: SingleChildScrollView(
@@ -64,7 +65,9 @@ class _SearchViewState extends State<SearchView> {
             SizedBox(
               height: 10,
             ),
-            Text_Field(screenWidth: screenWidth),
+            Text_Field(
+              screenWidth: screenWidth,
+            ),
             SizedBox(
               height: 15,
             ),
@@ -106,46 +109,7 @@ class _SearchViewState extends State<SearchView> {
             SizedBox(
               height: 15,
             ),
-            Wrap(
-              spacing: 20,
-              runSpacing: 20,
-              children: List.generate(
-                general.length,
-                (index) => Container(
-                  decoration: BoxDecoration(
-                      color: colors[index % colors.length],
-                      borderRadius: BorderRadius.circular(5)),
-                  width: 180,
-                  height: 120,
-                  child: Padding(
-                    padding: EdgeInsets.fromLTRB(10, 10, 0, 0),
-                    child: Stack(
-                      children: [
-                        Text(
-                          general[index % general.length],
-                          style: TextStyle(
-                              fontSize: 17,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white),
-                        ),
-                        Positioned(
-                          top: 35,
-                          left: 95,
-                          child: Transform.rotate(
-                            angle: 0.5,
-                            child: Container(
-                              height: 80,
-                              width: 80,
-                              child: Image.asset('assets/SampleImage.png'),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ),
+            grid_layout_cards(general: general, colors: colors),
           ],
         ),
       ),
@@ -153,14 +117,67 @@ class _SearchViewState extends State<SearchView> {
   }
 }
 
-class Card extends StatelessWidget {
-  const Card({
+class grid_layout_cards extends StatelessWidget {
+  const grid_layout_cards({
     super.key,
-    required this.screenWidth,
-    required this.items,
+    required this.general,
     required this.colors,
   });
 
+  final List<String> general;
+  final List<Color> colors;
+
+  @override
+  Widget build(BuildContext context) {
+    return Wrap(
+      spacing: 20,
+      runSpacing: 20,
+      children: List.generate(
+        general.length,
+        (index) => Container(
+          decoration: BoxDecoration(
+              color: colors[index % colors.length],
+              borderRadius: BorderRadius.circular(5)),
+          width: 180,
+          height: 120,
+          child: Padding(
+            padding: EdgeInsets.fromLTRB(10, 10, 0, 0),
+            child: Stack(
+              children: [
+                Text(
+                  general[index % general.length],
+                  style: TextStyle(
+                      fontSize: 17,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white),
+                ),
+                Positioned(
+                  top: 35,
+                  left: 95,
+                  child: Transform.rotate(
+                    angle: 0.5,
+                    child: Container(
+                      height: 80,
+                      width: 80,
+                      child: Image.asset('assets/SampleImage.png'),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class Card extends StatelessWidget {
+  const Card(
+      {super.key,
+      required this.screenWidth,
+      required this.items,
+      required this.colors});
   final double screenWidth;
   final List<String> items;
   final List<Color> colors;
@@ -170,17 +187,16 @@ class Card extends StatelessWidget {
     return Container(
       height: 120,
       width: screenWidth,
-      // decoration: BoxDecoration(color: Colors.white),
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         itemCount: items.length,
         itemBuilder: (context, index) {
           int randomIndex = Random().nextInt(colors.length);
-          // print(randomIndex)
           return Container(
             width: 180,
             height: 120,
             decoration: BoxDecoration(
+                // color: colors[index % colors.length],
                 color: colors[randomIndex],
                 borderRadius: BorderRadius.circular(5)),
             margin: EdgeInsets.fromLTRB(0, 0, 20, 0),
@@ -222,7 +238,6 @@ class Text_Field extends StatelessWidget {
     super.key,
     required this.screenWidth,
   });
-
   final double screenWidth;
 
   @override
@@ -244,6 +259,12 @@ class Text_Field extends StatelessWidget {
             width: screenWidth - 105,
             height: 45,
             child: TextField(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => SearchView2()),
+                );
+              },
               // controller: controller,
               style: TextStyle(
                 fontSize: 16,
