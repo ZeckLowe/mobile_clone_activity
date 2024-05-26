@@ -171,7 +171,8 @@ class _AlbumViewState extends State<AlbumView> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text("Lorem Ipsum dog fish elephant jaguar panther"),
+                        const Text(
+                            "Lorem Ipsum dog fish elephant jaguar panther"),
                         const SizedBox(
                           height: 32,
                         ),

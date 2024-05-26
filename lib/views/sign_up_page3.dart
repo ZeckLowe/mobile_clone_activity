@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mobile_clone_activity/providers/providers.dart';
 import 'package:mobile_clone_activity/views/sign_up_page2.dart';
 import 'package:mobile_clone_activity/views/sign_up_page4.dart';
 
 class SignUp3 extends StatelessWidget {
-  const SignUp3({super.key});
-
+  SignUp3({super.key});
+  late final TextEditingController genController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
@@ -41,11 +43,11 @@ class SignUp3 extends StatelessWidget {
                     fontSize: 19,
                     fontWeight: FontWeight.bold),
               ),
-              text_field(width: screenWidth),
+              text_field(width: screenWidth, controller: genController),
               SizedBox(
                 height: 50,
               ),
-              NextButton(),
+              NextButton(genController: genController),
             ],
           ),
         ),
@@ -54,19 +56,19 @@ class SignUp3 extends StatelessWidget {
   }
 }
 
-class NextButton extends StatelessWidget {
-  const NextButton({
-    super.key,
-  });
-
+class NextButton extends ConsumerWidget {
+  const NextButton({super.key, required this.genController});
+  final TextEditingController genController;
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return GestureDetector(
       onTap: () {
+        ref.read(gender.notifier).state = genController.text.trim();
+        print(ref.read(gender));
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (contex) => SignUp4(),
+            builder: (context) => SignUp4(),
           ),
         );
       },
@@ -93,9 +95,9 @@ class NextButton extends StatelessWidget {
 }
 
 class text_field extends StatelessWidget {
-  const text_field({super.key, required this.width});
+  const text_field({super.key, required this.width, required this.controller});
   final double width;
-
+  final TextEditingController controller;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -111,7 +113,7 @@ class text_field extends StatelessWidget {
             width: width - 100,
             height: 45,
             child: TextField(
-              // controller: controller,
+              controller: controller,
               style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w400,
@@ -119,11 +121,6 @@ class text_field extends StatelessWidget {
               ),
               decoration: InputDecoration(
                 border: InputBorder.none,
-                // hintText: 'Email',
-                // hintStyle: TextStyle(
-                //   color: Color(0xFF9EB3C2),
-                //   fontSize: 15,
-                // ),
               ),
             ),
           ),
@@ -150,7 +147,7 @@ class backButton extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (contex) => SignUp2(),
+            builder: (context) => SignUp2(),
           ),
         );
       },

@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mobile_clone_activity/models/models.dart';
+import 'package:mobile_clone_activity/providers/providers.dart';
 import 'package:mobile_clone_activity/views/sign_up_page2.dart';
 import 'package:mobile_clone_activity/views/start_screen.dart';
 
 class SignUp extends StatelessWidget {
-  const SignUp({super.key});
+  SignUp({super.key});
+  late final TextEditingController emailController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +46,7 @@ class SignUp extends StatelessWidget {
                     fontSize: 19,
                     fontWeight: FontWeight.bold),
               ),
-              text_field(width: screenWidth),
+              text_field(width: screenWidth, controller: emailController),
               Text(
                 'You\'ll need to confirm this email later.',
                 style: TextStyle(
@@ -53,7 +57,7 @@ class SignUp extends StatelessWidget {
               SizedBox(
                 height: 50,
               ),
-              NextButton(),
+              NextButton(emailController: emailController),
             ],
           ),
         ),
@@ -62,21 +66,59 @@ class SignUp extends StatelessWidget {
   }
 }
 
-class NextButton extends StatelessWidget {
-  const NextButton({
-    super.key,
-  });
-
+class NextButton extends ConsumerWidget {
+  NextButton({super.key, required this.emailController});
+  final TextEditingController emailController;
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final AsyncValue<List<User>> usersAsyncValue = ref.watch(userProvider);
     return GestureDetector(
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (contex) => SignUp2(),
-          ),
+      onTap: () async {
+        String emailInput = emailController.text.trim();
+        bool userExists = false;
+        usersAsyncValue.when(
+          data: (users) {
+            for (var user in users) {
+              if (user.email == emailInput) {
+                userExists = true;
+                break;
+              }
+            }
+          },
+          loading: () => CircularProgressIndicator(),
+          error: (err, stackTrace) => Center(child: Text("Error: $err")),
         );
+
+        if (userExists) {
+          showDialog(
+            context: context,
+            builder: (BuildContext context) => AlertDialog(
+              title: const Text('Email Already Exists'),
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text("Please change your email address"),
+                ],
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: const Text('Close'),
+                ),
+              ],
+            ),
+          );
+        } else {
+          ref.read(userEmail.notifier).state = emailInput;
+          print(emailInput);
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => SignUp2()),
+          );
+        }
       },
       child: Center(
         child: Container(
@@ -101,9 +143,9 @@ class NextButton extends StatelessWidget {
 }
 
 class text_field extends StatelessWidget {
-  const text_field({super.key, required this.width});
+  const text_field({super.key, required this.width, required this.controller});
   final double width;
-
+  final TextEditingController controller;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -114,7 +156,7 @@ class text_field extends StatelessWidget {
       width: width,
       height: 45,
       child: TextField(
-        // controller: controller,
+        controller: controller,
         style: TextStyle(
           fontSize: 16,
           fontWeight: FontWeight.w400,
@@ -122,11 +164,6 @@ class text_field extends StatelessWidget {
         ),
         decoration: InputDecoration(
           border: InputBorder.none,
-          // hintText: 'Email',
-          // hintStyle: TextStyle(
-          //   color: Color(0xFF9EB3C2),
-          //   fontSize: 15,
-          // ),
         ),
       ),
     );
@@ -145,7 +182,7 @@ class backButton extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (contex) => StartPage(),
+            builder: (context) => StartPage(),
           ),
         );
       },

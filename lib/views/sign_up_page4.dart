@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_clone_activity/models/models.dart';
 import 'package:mobile_clone_activity/navigations/tabbar.dart';
 import 'package:mobile_clone_activity/providers/providers.dart';
-import 'package:mobile_clone_activity/views/home.dart';
 import 'package:mobile_clone_activity/views/sign_up_page3.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mobile_clone_activity/views/start_screen.dart';
 
 class SignUp4 extends ConsumerWidget {
-  const SignUp4({super.key});
-
+  SignUp4({super.key});
+  late final TextEditingController nameController = TextEditingController();
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     double screenWidth = MediaQuery.of(context).size.width;
@@ -48,7 +49,7 @@ class SignUp4 extends ConsumerWidget {
                     fontSize: 19,
                     fontWeight: FontWeight.bold),
               ),
-              text_field(width: screenWidth),
+              text_field(width: screenWidth, controller: nameController),
               Text(
                 'This appears on your spotify profile.',
                 style: TextStyle(
@@ -118,7 +119,7 @@ class SignUp4 extends ConsumerWidget {
                     fontWeight: FontWeight.bold),
               ),
               Spacer(),
-              NextButton(),
+              NextButton(nameController: nameController),
             ],
           ),
         ),
@@ -182,19 +183,31 @@ class PrivacyPolicy extends StatelessWidget {
   }
 }
 
-class NextButton extends StatelessWidget {
-  const NextButton({
-    super.key,
-  });
-
+class NextButton extends ConsumerWidget {
+  const NextButton({super.key, required this.nameController});
+  final TextEditingController nameController;
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return GestureDetector(
-      onTap: () {
+      onTap: () async {
+        ref.read(name.notifier).state = nameController.text.trim();
+        final String userName = ref.read(name);
+        final String userGender = ref.read(gender);
+        final String email = ref.read(userEmail);
+        final String userPassword = ref.read(password);
+        print(userName);
+        print(userGender);
+        print(email);
+        print(userPassword);
+        await ref.read(userCreateProvider.notifier).addUser(User(
+            name: userName,
+            gender: userGender,
+            email: email,
+            password: userPassword));
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (contex) => Tabbar(),
+            builder: (context) => StartPage(),
           ),
         );
       },
@@ -220,9 +233,9 @@ class NextButton extends StatelessWidget {
 }
 
 class text_field extends StatelessWidget {
-  const text_field({super.key, required this.width});
+  const text_field({super.key, required this.width, required this.controller});
   final double width;
-
+  final TextEditingController controller;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -238,7 +251,7 @@ class text_field extends StatelessWidget {
             width: width - 105,
             height: 45,
             child: TextField(
-              // controller: controller,
+              controller: controller,
               style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w400,
@@ -246,11 +259,6 @@ class text_field extends StatelessWidget {
               ),
               decoration: InputDecoration(
                 border: InputBorder.none,
-                // hintText: 'Email',
-                // hintStyle: TextStyle(
-                //   color: Color(0xFF9EB3C2),
-                //   fontSize: 15,
-                // ),
               ),
             ),
           ),
@@ -277,7 +285,7 @@ class backButton extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (contex) => SignUp3(),
+            builder: (context) => SignUp3(),
           ),
         );
       },

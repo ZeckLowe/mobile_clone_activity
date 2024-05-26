@@ -1,18 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_clone_activity/navigations/tabbar.dart';
-import 'package:mobile_clone_activity/views/home.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mobile_clone_activity/providers/providers.dart';
+import 'package:mobile_clone_activity/views/login_form_page.dart';
 import 'package:mobile_clone_activity/widgets/signup_buttons.dart';
 
-class StartPage extends StatefulWidget {
+class StartPage extends ConsumerWidget {
   const StartPage({super.key});
-
   @override
-  State<StartPage> createState() => StartPageState();
-}
-
-class StartPageState extends State<StartPage> {
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       backgroundColor: const Color(0xff121212),
       body: Stack(
@@ -55,7 +50,7 @@ class StartPageState extends State<StartPage> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => Tabbar(),
+                          builder: (context) => Login(),
                         ),
                       );
                     },
