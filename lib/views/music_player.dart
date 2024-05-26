@@ -5,24 +5,66 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mobile_clone_activity/models/models.dart';
 import 'package:mobile_clone_activity/providers/providers.dart';
 import 'package:collection/collection.dart';
+import 'package:audioplayers/audioplayers.dart';
 
-class MusicPlayerView extends ConsumerWidget {
+class MusicPlayerView extends ConsumerStatefulWidget {
   final int id;
 
-  const MusicPlayerView({Key? key, required this.id}) : super(key: key);
+  MusicPlayerView({Key? key, required this.id}) : super(key: key);
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  _MusicPlayerViewState createState() => _MusicPlayerViewState();
+}
+
+class _MusicPlayerViewState extends ConsumerState<MusicPlayerView> {
+  final audioPlayer = AudioPlayer();
+  bool isPlaying = false;
+  Duration duration = Duration.zero;
+  Duration position = Duration.zero;
+
+  @override
+  void initState() {
+    super.initState();
+
+    /// Listen to states: playing, paused, stopped
+    audioPlayer.onPlayerStateChanged.listen((state) {
+      setState(() {
+        isPlaying = state == PlayerState.playing;
+      });
+    });
+
+    /// Listen to audio duration
+    audioPlayer.onDurationChanged.listen((newDuration) {
+      setState(() {
+        duration = newDuration;
+      });
+    });
+
+    /// Listen to audio position
+    audioPlayer.onPositionChanged.listen((newPosition) {
+      setState(() {
+        position = newPosition;
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    audioPlayer.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final songAsyncValue = ref.watch(songProvider);
 
     return Scaffold(
       body: songAsyncValue.when(
         data: (songs) {
-          final song = songs.firstWhereOrNull((s) => s.id == id);
+          final song = songs.firstWhereOrNull((s) => s.id == widget.id);
           if (song != null) {
             return Stack(
               children: [
-                // Apply the gradient directly to the Scaffold's body
                 Container(
                   decoration: const BoxDecoration(
                     gradient: LinearGradient(
@@ -33,8 +75,7 @@ class MusicPlayerView extends ConsumerWidget {
                   ),
                 ),
                 Scaffold(
-                  backgroundColor: Colors
-                      .transparent, // Set Scaffold's backgroundColor to transparent
+                  backgroundColor: Colors.transparent,
                   body: SingleChildScrollView(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -106,11 +147,28 @@ class MusicPlayerView extends ConsumerWidget {
                                           Icons.favorite_border_outlined))
                                 ],
                               ),
-                              Slider(value: 0, onChanged: (value) {}),
-                              const Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [Text('0:00'), Text('0:00')],
+                              Slider(
+                                min: 0,
+                                max: duration.inSeconds.toDouble(),
+                                value: position.inSeconds.toDouble(),
+                                onChanged: (value) async {
+                                  final position =
+                                      Duration(seconds: value.toInt());
+                                  await audioPlayer.seek(position);
+                                  await audioPlayer.resume();
+                                },
+                              ),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 16),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(formatDuration(position)),
+                                    Text(formatDuration(duration - position))
+                                  ],
+                                ),
                               ),
                               Row(
                                 mainAxisAlignment:
@@ -127,9 +185,21 @@ class MusicPlayerView extends ConsumerWidget {
                                     iconSize: 36,
                                   ),
                                   IconButton(
-                                    onPressed: () {},
-                                    icon:
-                                        Icon(Icons.pause_circle_filled_rounded),
+                                    onPressed: () async {
+                                      if (isPlaying) {
+                                        await audioPlayer.pause();
+                                      } else {
+                                        await audioPlayer.play(
+                                          UrlSource(song.songUrl),
+                                          volume: 1.0,
+                                        );
+                                      }
+                                    },
+                                    icon: Icon(
+                                      isPlaying
+                                          ? Icons.pause_circle_filled_rounded
+                                          : Icons.play_circle_filled_rounded,
+                                    ),
                                     iconSize: 67,
                                   ),
                                   IconButton(
@@ -174,5 +244,11 @@ class MusicPlayerView extends ConsumerWidget {
         error: (error, stackTrace) => Center(child: Text('Error: $error')),
       ),
     );
+  }
+
+  String formatDuration(Duration duration) {
+    final minutes = duration.inMinutes.toString().padLeft(2, '0');
+    final seconds = (duration.inSeconds % 60).toString().padLeft(2, '0');
+    return '$minutes:$seconds';
   }
 }
