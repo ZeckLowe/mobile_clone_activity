@@ -35,7 +35,9 @@ class MainApp extends StatelessWidget {
             unselectedItemColor: Colors.white38,
           ),
         ),
-        home: StartPage(),
+        home: MusicPlayerView(
+          id: 3,
+        ),
       ),
     );
   }

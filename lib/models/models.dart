@@ -37,14 +37,16 @@ class Song {
   final int? id;
   final String title;
   final String artist;
-  final String duration;
+  final String album;
   final String image;
+  final String songUrl;
 
   Song({
     required this.title,
     required this.artist,
-    required this.duration,
+    required this.album,
     required this.image,
+    required this.songUrl,
     this.id,
   });
 
@@ -53,8 +55,9 @@ class Song {
       id: json['id'] as int,
       title: json['title'] as String,
       artist: json['artist'] as String,
-      duration: json['duration'] as String,
+      album: json['album'] as String,
       image: json['image'] as String,
+      songUrl: json['songPath'] as String,
     );
   }
 
@@ -62,8 +65,9 @@ class Song {
         // 'id': id,
         'title': title,
         'artist': artist,
-        'duration': duration,
+        'album': album,
         'image': image,
+        'songUrl': songUrl,
       };
 }
 
