@@ -15,7 +15,6 @@ dependencies:
   cupertino_icons: ^1.0.8
   fading_edge_scrollview: ^4.1.1
   collection: ^1.18.0
-  just_audio: ^0.9.17
   path_provider: ^2.0.8
   audioplayers: ^6.0.0
 
