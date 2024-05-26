@@ -3,6 +3,9 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:mobile_clone_activity/models/models.dart';
 
+final song = StateProvider<Song>(
+    (ref) => Song(title: '', artist: '', album: '', image: '', songUrl: ''));
+
 //Checkboxes in sign_up4 page
 final isChecked1Provider = StateProvider<bool>((ref) => false);
 final isChecked2Provider = StateProvider<bool>((ref) => false);

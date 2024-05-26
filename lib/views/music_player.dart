@@ -8,9 +8,9 @@ import 'package:collection/collection.dart';
 import 'package:audioplayers/audioplayers.dart';
 
 class MusicPlayerView extends ConsumerStatefulWidget {
-  final int id;
+  final int initialId;
 
-  MusicPlayerView({Key? key, required this.id}) : super(key: key);
+  MusicPlayerView({Key? key, required this.initialId}) : super(key: key);
 
   @override
   _MusicPlayerViewState createState() => _MusicPlayerViewState();
@@ -21,10 +21,12 @@ class _MusicPlayerViewState extends ConsumerState<MusicPlayerView> {
   bool isPlaying = false;
   Duration duration = Duration.zero;
   Duration position = Duration.zero;
+  late int currentId;
 
   @override
   void initState() {
     super.initState();
+    currentId = widget.initialId;
 
     /// Listen to states: playing, paused, stopped
     audioPlayer.onPlayerStateChanged.listen((state) {
@@ -54,6 +56,28 @@ class _MusicPlayerViewState extends ConsumerState<MusicPlayerView> {
     super.dispose();
   }
 
+  void playSong(Song song) async {
+    await audioPlayer.play(UrlSource(song.songUrl));
+  }
+
+  void playNextSong(List<Song> songs) {
+    final currentIndex = songs.indexWhere((song) => song.id == currentId);
+    if (currentIndex != -1 && currentIndex < songs.length - 1) {
+      setState(() {
+        currentId = songs[currentIndex + 1].id ?? 0;
+      });
+    }
+  }
+
+  void playPreviousSong(List<Song> songs) async {
+    final currentIndex = songs.indexWhere((song) => song.id == currentId);
+    if (currentIndex > 0) {
+      setState(() {
+        currentId = songs[currentIndex - 1].id ?? 0;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final songAsyncValue = ref.watch(songProvider);
@@ -61,7 +85,7 @@ class _MusicPlayerViewState extends ConsumerState<MusicPlayerView> {
     return Scaffold(
       body: songAsyncValue.when(
         data: (songs) {
-          final song = songs.firstWhereOrNull((s) => s.id == widget.id);
+          final song = songs.firstWhereOrNull((s) => s.id == currentId);
           if (song != null) {
             return Stack(
               children: [
@@ -180,7 +204,11 @@ class _MusicPlayerViewState extends ConsumerState<MusicPlayerView> {
                                     iconSize: 22,
                                   ),
                                   IconButton(
-                                    onPressed: () {},
+                                    onPressed: () async {
+                                      playPreviousSong(songs);
+                                      await audioPlayer.stop();
+                                      await audioPlayer.seek(Duration.zero);
+                                    },
                                     icon: Icon(Icons.skip_previous),
                                     iconSize: 36,
                                   ),
@@ -203,7 +231,9 @@ class _MusicPlayerViewState extends ConsumerState<MusicPlayerView> {
                                     iconSize: 67,
                                   ),
                                   IconButton(
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      playNextSong(songs);
+                                    },
                                     icon: Icon(Icons.skip_next),
                                     iconSize: 36,
                                   ),
