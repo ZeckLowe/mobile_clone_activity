@@ -10,7 +10,6 @@ class addPlaylist extends ConsumerWidget {
     final filteredSongs = ref.watch(filteredSongProvider);
     double screenWidth = MediaQuery.of(context).size.width;
     // final String playlistName = ref.watch(playListNameProvider);
-    List<int> addedSongs = [];
 
     return Scaffold(
       backgroundColor: Color(0xff121212),
@@ -30,8 +29,8 @@ class addPlaylist extends ConsumerWidget {
                 height: 20,
               ),
               CreatePlaylistbutton(
-                addedSongs: addedSongs,
-              ),
+                  // addedSongs: addedSongs,
+                  ),
               SizedBox(
                 height: 45,
               ),
@@ -62,7 +61,12 @@ class addPlaylist extends ConsumerWidget {
                     subtitle: Text(filteredSongs[index].artist),
                     trailing: GestureDetector(
                       onTap: () {
-                        addedSongs.add(filteredSongs[index].id!);
+                        print(filteredSongs[index].id);
+                        ref
+                            .read(addedSongsProvider.notifier)
+                            .state
+                            .add(filteredSongs[index].id!);
+                        // addedSongs.add(filteredSongs[index].id!);
                       },
                       child: Container(
                         height: 50,
@@ -93,11 +97,15 @@ class addPlaylist extends ConsumerWidget {
 }
 
 class CreatePlaylistbutton extends ConsumerWidget {
-  const CreatePlaylistbutton({super.key, required this.addedSongs});
-  final List<int> addedSongs;
+  const CreatePlaylistbutton({
+    super.key,
+    // required this.addedSongs
+  });
+  // final List<int> addedSongs;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final String playlistName = ref.watch(playListNameProvider);
+    final List<int> addedSongs = ref.watch(addedSongsProvider);
     return GestureDetector(
       onTap: () async {
         final int currentUserId = ref.read(userIdProvider);
@@ -111,7 +119,9 @@ class CreatePlaylistbutton extends ConsumerWidget {
                 songs: addedSongs,
               ),
             );
-        ;
+        ref.read(addedSongsProvider.notifier).state = [];
+
+        print(ref.read(addedSongsProvider));
         Navigator.pop(context);
       },
       child: Center(

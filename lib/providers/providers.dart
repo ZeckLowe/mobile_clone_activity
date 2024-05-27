@@ -12,6 +12,8 @@ final showPassIconProvider = StateProvider<bool>((ref) => true);
 
 //for adding playlist
 final playListNameProvider = StateProvider<String>((ref) => '');
+final clickedPlaylistId = StateProvider<int>((ref) => 0);
+final addedSongsProvider = StateProvider<List<int>>((ref) => []);
 
 //navigation in tabbar
 final selectedTabProvider = StateProvider<int>((ref) => 0);
@@ -148,6 +150,116 @@ class AddPlayList extends AsyncNotifier<Playlist> {
       }
     } catch (e) {
       throw Exception('Failed to add user: $e');
+    }
+  }
+
+  Future<void> deletePlaylist(int playlistId) async {
+    try {
+      final response = await http.delete(
+        Uri.http('10.0.2.2:8000', '/api/v1/playlist/$playlistId/'),
+        headers: {'Content-Type': 'application/json'},
+      );
+      if (response.statusCode == 200 || response.statusCode == 204) {
+        print("Playlist deleted successfully");
+        ref.refresh(playlistProvider);
+      } else {
+        throw Exception(
+            'Failed to delete playlist: ${response.statusCode} ${response.body}');
+      }
+    } catch (e) {
+      throw Exception('Failed to delete playlist: $e');
+    }
+  }
+
+  Future<void> addSongToPlaylist(int playlistId, int songId) async {
+    try {
+      // Fetch the current playlist
+      final getResponse = await http.get(
+        Uri.http('10.0.2.2:8000', '/api/v1/playlist/$playlistId/'),
+        headers: {'Content-Type': 'application/json'},
+      );
+      if (getResponse.statusCode != 200) {
+        throw Exception(
+            'Failed to fetch playlist: ${getResponse.statusCode} ${getResponse.body}');
+      }
+
+      // Parse the current playlist data
+      final playlistData = jsonDecode(getResponse.body);
+      final Playlist currentPlaylist = Playlist.fromJson(playlistData);
+
+      // Add the new song to the list
+      final List<int> updatedSongs = List<int>.from(currentPlaylist.songs);
+      updatedSongs.add(songId);
+
+      // Create an updated playlist object
+      final updatedPlaylist = Playlist(
+        id: currentPlaylist.id,
+        name: currentPlaylist.name,
+        user: currentPlaylist.user,
+        songs: updatedSongs,
+      );
+
+      // Send the updated playlist back to the server
+      final putResponse = await http.put(
+        Uri.http('10.0.2.2:8000', '/api/v1/playlist/$playlistId/'),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode(updatedPlaylist.toJson()),
+      );
+      if (putResponse.statusCode == 200) {
+        print("Song added successfully: ${putResponse.body}");
+        ref.refresh(playlistProvider);
+      } else {
+        throw Exception(
+            'Failed to add song: ${putResponse.statusCode} ${putResponse.body}');
+      }
+    } catch (e) {
+      throw Exception('Failed to add song: $e');
+    }
+  }
+
+  Future<void> deleteSongFromPlaylist(int playlistId, int songId) async {
+    try {
+      // Fetch the current playlist
+      final getResponse = await http.get(
+        Uri.http('10.0.2.2:8000', '/api/v1/playlist/$playlistId/'),
+        headers: {'Content-Type': 'application/json'},
+      );
+      if (getResponse.statusCode != 200) {
+        throw Exception(
+            'Failed to fetch playlist: ${getResponse.statusCode} ${getResponse.body}');
+      }
+
+      // Parse the current playlist data
+      final playlistData = jsonDecode(getResponse.body);
+      final Playlist currentPlaylist = Playlist.fromJson(playlistData);
+
+      // Delete the new song from the list
+      final List<int> updatedSongs = List<int>.from(currentPlaylist.songs);
+      updatedSongs.remove(songId);
+
+      // Create an updated playlist object
+      final updatedPlaylist = Playlist(
+        id: currentPlaylist.id,
+        name: currentPlaylist.name,
+        user: currentPlaylist.user,
+        songs: updatedSongs,
+      );
+
+      // Send the updated playlist back to the server
+      final putResponse = await http.put(
+        Uri.http('10.0.2.2:8000', '/api/v1/playlist/$playlistId/'),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode(updatedPlaylist.toJson()),
+      );
+      if (putResponse.statusCode == 200) {
+        print("Song added successfully: ${putResponse.body}");
+        ref.refresh(playlistProvider);
+      } else {
+        throw Exception(
+            'Failed to add song: ${putResponse.statusCode} ${putResponse.body}');
+      }
+    } catch (e) {
+      throw Exception('Failed to add song: $e');
     }
   }
 }

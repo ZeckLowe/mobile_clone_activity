@@ -1,18 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mobile_clone_activity/models/models.dart';
+import 'package:mobile_clone_activity/views/add_songs.dart';
 
 import '../providers/providers.dart';
 
 class PlaylistPage extends ConsumerWidget {
-  const PlaylistPage(
-      {super.key,
-      required this.playlistName,
-      required this.image,
-      required this.id});
+  const PlaylistPage({
+    super.key,
+    required this.playlistName,
+    required this.image,
+    // required this.id
+  });
   final String playlistName;
   final String image;
-  final int id;
+  // final int id;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -21,7 +23,7 @@ class PlaylistPage extends ConsumerWidget {
     final AsyncValue<List<Song>> songsAsyncValue = ref.watch(songProvider);
     final AsyncValue<List<Playlist>> playlistAsyncValue =
         ref.watch(playlistProvider);
-    final int currentPlayListId = 0;
+    final int currentPlayListId = ref.watch(clickedPlaylistId);
     return Scaffold(
       body: SingleChildScrollView(
         child: SafeArea(
@@ -39,12 +41,15 @@ class PlaylistPage extends ConsumerWidget {
               Container(
                 height: 320,
                 width: screenWidth,
-                // decoration: BoxDecoration(color: Colors.green),
                 child: playlistAsyncValue.when(
                   data: (playlists) => usersAsyncValue.when(
                     data: (users) => songsAsyncValue.when(
                       data: (songs) {
-                        List<int> songsList = playlists[id - 1].songs;
+                        Playlist foundPlaylist = playlists.firstWhere(
+                            (playlists) => playlists.id == currentPlayListId);
+                        List<int> songsList = foundPlaylist.songs;
+                        // List<int> songsList =
+                        //     playlists[currentPlayListId - 1].songs;
                         return ListView.builder(
                           shrinkWrap: true,
                           itemCount: songsList.length,
@@ -52,38 +57,99 @@ class PlaylistPage extends ConsumerWidget {
                             padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
                             child: GestureDetector(
                               onTap: () {
-                                // Navigator.push(
-                                //   context,
-                                //   MaterialPageRoute(
-                                //     builder: (context) => PlaylistPage(
-                                //       playlistName: userPlaylists[index].name,
-                                //       image: "assets/album2.jpg",
-                                //     ),
-                                //   ),
-                                // );
+                                //INSERT CODE FOR MUSIC PLAYING
                               },
-                              child: ListTile(
-                                  leading: Container(
-                                    height: 55,
-                                    width: 55,
-                                    child: Image.network(
-                                      songs[songsList[index] - 1].image,
-                                      fit: BoxFit.fill,
+                              child: Padding(
+                                padding: EdgeInsets.fromLTRB(15, 0, 15, 0),
+                                child: Row(
+                                  children: [
+                                    Container(
+                                      height: 60,
+                                      width: 60,
+                                      child: Image.network(
+                                        songs[songsList[index] - 1].image,
+                                        fit: BoxFit.fill,
+                                      ),
                                     ),
-                                  ),
-                                  title: Text(
-                                    songs[songsList[index] - 1].title,
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold,
+                                    SizedBox(
+                                      width: 15,
                                     ),
-                                  ),
-                                  subtitle: Text(
-                                    songs[songsList[index] - 1].artist,
-                                  ),
-                                  trailing:
-                                      Image.asset('assets/Arrow_right.png')),
+                                    Text(
+                                      songs[songsList[index] - 1].title,
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    Spacer(),
+                                    GestureDetector(
+                                      onTap: () async {
+                                        showDialog(
+                                          context: context,
+                                          builder: (BuildContext context) =>
+                                              AlertDialog(
+                                            title:
+                                                const Text('Confirm Deletion'),
+                                            content: Column(
+                                              mainAxisSize: MainAxisSize.min,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text("Do you Want to delete " +
+                                                    songs[songsList[index] - 1]
+                                                        .title +
+                                                    "?"),
+                                              ],
+                                            ),
+                                            actions: [
+                                              TextButton(
+                                                onPressed: () async {
+                                                  print(songs[
+                                                          songsList[index] - 1]
+                                                      .id);
+                                                  print(currentPlayListId);
+                                                  await ref
+                                                      .read(addPlaylistProvider
+                                                          .notifier)
+                                                      .deleteSongFromPlaylist(
+                                                          currentPlayListId,
+                                                          songs[songsList[
+                                                                      index] -
+                                                                  1]
+                                                              .id!);
+                                                  Navigator.of(context).pop();
+                                                },
+                                                child: const Text('Delete'),
+                                              ),
+                                              TextButton(
+                                                onPressed: () {
+                                                  Navigator.of(context).pop();
+                                                },
+                                                child: const Text('Cancel'),
+                                              ),
+                                            ],
+                                          ),
+                                        );
+                                      },
+                                      child: Container(
+                                        height: 30,
+                                        width: 30,
+                                        child: Icon(Icons.delete),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: 15,
+                                    ),
+                                    Container(
+                                      height: 30,
+                                      width: 30,
+                                      child:
+                                          Image.asset('assets/Arrow_right.png'),
+                                    ),
+                                  ],
+                                ),
+                              ),
                             ),
                           ),
                         );
@@ -127,12 +193,12 @@ class SongsText extends StatelessWidget {
           ),
           GestureDetector(
             onTap: () {
-              // Navigator.push(
-              //   context,
-              //   MaterialPageRoute(
-              //     builder: (context) => addPlaylist(),
-              //   ),
-              // );
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => AddSongs(),
+                ),
+              );
             },
             child: Container(
               height: 50,

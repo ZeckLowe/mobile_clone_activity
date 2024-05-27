@@ -48,32 +48,100 @@ class LibraryView extends ConsumerWidget {
                             padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
                             child: GestureDetector(
                               onTap: () {
+                                ref.read(clickedPlaylistId.notifier).state =
+                                    userPlaylists[index].id!;
+                                // print(ref.read(clickedPlaylistId));
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) => PlaylistPage(
                                       playlistName: userPlaylists[index].name,
-                                      id: userPlaylists[index].id!,
                                       image: "assets/album2.jpg",
                                     ),
                                   ),
                                 );
                               },
-                              child: ListTile(
-                                  leading: Container(
+                              child: Padding(
+                                padding: EdgeInsets.fromLTRB(15, 0, 15, 0),
+                                child: Row(
+                                  children: [
+                                    Container(
                                       height: 60,
                                       width: 60,
-                                      child: Image.asset('assets/album2.jpg')),
-                                  title: Text(
-                                    userPlaylists[index].name,
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold,
+                                      child: Image.asset('assets/album2.jpg'),
                                     ),
-                                  ),
-                                  trailing:
-                                      Image.asset('assets/Arrow_right.png')),
+                                    SizedBox(
+                                      width: 15,
+                                    ),
+                                    Text(
+                                      userPlaylists[index].name,
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    Spacer(),
+                                    GestureDetector(
+                                      onTap: () async {
+                                        // print(userPlaylists[index].id);
+                                        showDialog(
+                                          context: context,
+                                          builder: (BuildContext context) =>
+                                              AlertDialog(
+                                            title:
+                                                const Text('Confirm Deletion'),
+                                            content: Column(
+                                              mainAxisSize: MainAxisSize.min,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text("Do you Want to delete " +
+                                                    userPlaylists[index].name +
+                                                    "?"),
+                                              ],
+                                            ),
+                                            actions: [
+                                              TextButton(
+                                                onPressed: () async {
+                                                  await ref
+                                                      .read(addPlaylistProvider
+                                                          .notifier)
+                                                      .deletePlaylist(
+                                                          userPlaylists[index]
+                                                              .id!);
+                                                  Navigator.of(context).pop();
+                                                },
+                                                child: const Text('Delete'),
+                                              ),
+                                              TextButton(
+                                                onPressed: () {
+                                                  Navigator.of(context).pop();
+                                                },
+                                                child: const Text('Cancel'),
+                                              ),
+                                            ],
+                                          ),
+                                        );
+                                      },
+                                      child: Container(
+                                        height: 30,
+                                        width: 30,
+                                        child: Icon(Icons.delete),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: 15,
+                                    ),
+                                    Container(
+                                      height: 30,
+                                      width: 30,
+                                      child:
+                                          Image.asset('assets/Arrow_right.png'),
+                                    ),
+                                  ],
+                                ),
+                              ),
                             ),
                           ),
                         );
