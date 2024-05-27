@@ -120,8 +120,8 @@ class CreatePlaylistbutton extends ConsumerWidget {
               ),
             );
         ref.read(addedSongsProvider.notifier).state = [];
-
-        print(ref.read(addedSongsProvider));
+        ref.read(searchTextProvider.notifier).state = '';
+        // print(ref.read(addedSongsProvider));
         Navigator.pop(context);
       },
       child: Center(
